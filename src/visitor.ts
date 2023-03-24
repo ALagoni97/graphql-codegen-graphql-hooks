@@ -33,7 +33,7 @@ export class GraphQLHooksVisitor extends ClientSideBaseVisitor<
 
     override getImports() {
         return [
-            `import { useQuery, useMutation, useManualQuery, UseClientRequestOptions, UseQueryOptions } from 'graphql-hooks';`,
+            `import { useQuery, useMutation,useSubscription, useManualQuery, UseClientRequestOptions, UseQueryOptions  } from 'graphql-hooks';`,
         ]
     }
 
@@ -45,13 +45,19 @@ export class GraphQLHooksVisitor extends ClientSideBaseVisitor<
         operationVariablesTypes: string,
         hasRequiredVariables: boolean
     ) {
-        if (operationType === 'Query') {
-            return [
-                `export const use${operationResultType} = (options?: UseQueryOptions<${operationResultType}, ${operationVariablesTypes}>) => useQuery<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`,
-                `export const useManual${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useManualQuery<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`,
-            ].join('\n')
-        } else if (operationType === 'Mutation') {
-            return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useMutation<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`
+        switch (operationType) {
+            case 'Query': {
+                return [
+                    `export const use${operationResultType} = (options?: UseQueryOptions<${operationResultType}, ${operationVariablesTypes}>) => useQuery<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`,
+                    `export const useManual${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useManualQuery<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`,
+                ].join('\n')
+            }
+            case 'Mutation': {
+                return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useMutation<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`
+            }
+            case 'Subscription': {
+                return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useSubscription<${operationResultType}, ${operationVariablesTypes}>({${documentVariableName}}, options)`
+            }
         }
 
         return ''

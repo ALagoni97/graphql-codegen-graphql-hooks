@@ -1,9 +1,9 @@
 {
-    "name": "@stefanoruth/graphql-codegen-graphql-hooks",
+    "name": "@alagoni97/graphql-codegen-graphql-hooks",
     "version": "1.4.1",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
-    "repository": "https://github.com/stefanoruth/graphql-codegen-graphql-hooks.git",
+    "repository": "https://github.com/ALagoni97/graphql-codegen-graphql-hooks.git",
     "author": "Stefano Ruth <stefano6262@gmail.com>",
     "license": "MIT",
     "private": false,

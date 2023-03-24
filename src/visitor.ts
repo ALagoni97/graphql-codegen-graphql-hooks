@@ -56,7 +56,7 @@ export class GraphQLHooksVisitor extends ClientSideBaseVisitor<
                 return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useMutation<${operationResultType}, ${operationVariablesTypes}>(${documentVariableName}, options)`
             }
             case 'Subscription': {
-                return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useSubscription<${operationResultType}, ${operationVariablesTypes}>({${documentVariableName}}, options)`
+                return `export const use${operationResultType} = (options?: UseClientRequestOptions<${operationResultType}, ${operationVariablesTypes}>) => useSubscription<${operationResultType}, ${operationVariablesTypes}>({query: ${documentVariableName}}, options)`
             }
         }
 
